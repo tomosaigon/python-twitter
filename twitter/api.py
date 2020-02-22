@@ -2980,7 +2980,8 @@ class Api(object):
                           skip_status=False,
                           full_text=False,
                           page=None,
-                          return_json=False):
+                          return_json=False,
+                          welcome=False):
         """Returns a list of the direct messages sent to the authenticating user.
 
         Args:
@@ -3014,11 +3015,16 @@ class Api(object):
             not 0.
           return_json (bool, optional):
             If True JSON data will be returned, instead of twitter.User
+          welcome (bool, optional):
+            If True return welcome messages instead of normal messages
 
         Returns:
           A sequence of twitter.DirectMessage instances
         """
-        url = '%s/direct_messages/events/list.json' % self.base_url
+        if welcome:
+            url = '%s/direct_messages/welcome_messages/list.json' % self.base_url
+        else:
+            url = '%s/direct_messages/events/list.json' % self.base_url
         parameters = {
             'full_text': bool(full_text),
             'include_entities': bool(include_entities),
